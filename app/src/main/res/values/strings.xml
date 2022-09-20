@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">DonationAppF22</string>
+    <string name="welcome_to_our_donation_app">Welcome to Our Donation App</string>
+    <string name="donation_amount">Donation Amount</string>
+    <string name="credit_card">Credit Card</string>
+    <string name="donate_now">Donate Now</string>
+    <string name="paypal">PayPal</string>
+    <string name="correctInfo">"Correct Info"</string>
+    <string name="please_select_the_payment_method">Please Select The Payment Method:</string>
+</resources>
