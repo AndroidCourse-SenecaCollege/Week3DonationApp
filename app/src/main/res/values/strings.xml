@@ -7,4 +7,5 @@
     <string name="paypal">PayPal</string>
     <string name="correctInfo">"Correct Info"</string>
     <string name="please_select_the_payment_method">Please Select The Payment Method:</string>
+    <string name="take_a_photo">Take a photo</string>
 </resources>

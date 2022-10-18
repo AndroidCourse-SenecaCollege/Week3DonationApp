@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<item android:title="Report" android:id="@+id/report_menu_item"></item>
+<item android:title="Camera" android:id="@+id/camera_activity"/>
+    <item android:title="Close" android:id="@+id/close_menu_item"></item>
+</menu>
