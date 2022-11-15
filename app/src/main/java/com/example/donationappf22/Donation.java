@@ -3,10 +3,23 @@ package com.example.donationappf22;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class Donation implements Parcelable {
-    double amount;
-    String paymentMethod;
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.Ignore;
+import androidx.room.PrimaryKey;
 
+@Entity
+public class Donation implements Parcelable {
+    @PrimaryKey(autoGenerate = true)
+    public int id;
+
+    public double amount;
+
+    @ColumnInfo(name="payment_method")
+    public String paymentMethod;
+
+//    @Ignore
+//    Boolean isargent;
 
     public Donation(double amount, String paymentMethod) {
         this.amount = amount;

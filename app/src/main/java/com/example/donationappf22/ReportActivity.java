@@ -33,7 +33,7 @@ public class ReportActivity extends AppCompatActivity
     ImageView image;
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (savedInstanceState != null)
+        if (savedInstanceState != null)// UI variables
             a = savedInstanceState.getInt("a");
 
         setContentView(R.layout.activity_report);

@@ -6,13 +6,12 @@ import java.util.ArrayList;
 
 public class MyApp extends Application {
 
-   static private ArrayList<Donation> allDonations = new ArrayList<Donation>(0);
-
+    DataBaseManager dataBaseManager = new DataBaseManager();
+    static public ArrayList<Donation> allDonations = new ArrayList<Donation>(0);
     static ArrayList<Donation> getDonationArray(){
         return allDonations;
     }
-
-   static void addNewDonation(Donation d){
+    static void addNewDonation(Donation d){
         allDonations.add(d);
     }
 }

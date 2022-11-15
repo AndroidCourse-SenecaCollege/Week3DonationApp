@@ -15,7 +15,11 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.Toast;
 
-public class MainActivity extends AppCompatActivity {
+import java.util.ArrayList;
+import java.util.List;
+
+public class MainActivity extends AppCompatActivity
+        implements DataBaseManager.DataBaseListener {
     Button donation_button;
     EditText damountET;
     RadioButton ppRB;
@@ -23,15 +27,22 @@ public class MainActivity extends AppCompatActivity {
     String selectedPMethod;
     double amount;
     Donation currentDonation;
+    DataBaseManager dataBaseManager;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        dataBaseManager = ((MyApp)getApplication()).dataBaseManager;
+
+        dataBaseManager.getDB(MainActivity.this);
+        dataBaseManager.listener = this;
+        dataBaseManager.getAllDonations();
+        dataBaseManager.getListOfDonationsMoreThanValue(70.0);
          donation_button = (Button)findViewById(R.id.donatebutton);
          damountET = (EditText) findViewById(R.id.amountText);
          ppRB = (RadioButton) findViewById(R.id.ppRB);
          ccRB = findViewById(R.id.ccRB);
-
+        dataBaseManager = ((MyApp)getApplication()).dataBaseManager;
 
          // click listener
          donation_button.setOnClickListener(new View.OnClickListener() {
@@ -41,8 +52,11 @@ public class MainActivity extends AppCompatActivity {
                     if (validateUI()){
                         String msg = "Thank You for your " + amount + " CAD donation completed via " + selectedPMethod+ " .";
                         currentDonation = new Donation(amount,selectedPMethod);
+
+                        // Cannot access database on the main thread since it may potentially lock the UI for a long period of time.
+                        //  (dataBaseManager.getDB(MainActivity.this)).donationDao().insertOneDonation(currentDonation);
+                        dataBaseManager.insertNewDonationInBGThread(currentDonation);
                         MyApp.addNewDonation(currentDonation);
-                        Toast.makeText(MainActivity.this, msg, Toast.LENGTH_LONG).show();
                     }
                     else {
                         Toast.makeText(MainActivity.this, "Missing Info", Toast.LENGTH_LONG).show();
@@ -90,7 +104,7 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.report_menu_item:
-                // explicit intent
+
                 Intent reportIntent = new Intent(this,ReportActivity.class);
                 reportIntent.putExtra("dObject",currentDonation);
 
@@ -108,5 +122,21 @@ public class MainActivity extends AppCompatActivity {
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    @Override
+    public void onGettingListDone(List<Donation> d) {
+        ( (MyApp)getApplication()).allDonations = new ArrayList<Donation>(d);
+    }
+
+    @Override
+    public void onGettingListWithSpecifValueDone(List<Donation> dv) {
+        Log.d("list",dv.size() + "");
+    }
+
+    @Override
+    public void onInsertDone() {
+        Toast.makeText(MainActivity.this, "Donation inserted into the Database", Toast.LENGTH_LONG).show();
+
     }
 }
